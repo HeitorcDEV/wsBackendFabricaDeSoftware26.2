@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>OpenLibrary API - Buscar Livros</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .header h1 {
+            font-size: 32px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .header p {
+            color: #666;
+            font-size: 16px;
+        }
+        .search-section {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+        .search-form {
+            display: flex;
+            gap: 10px;
+        }
+        .search-form input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        .search-form input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        .search-form button {
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .search-form button:hover {
+            transform: translateY(-2px);
+        }
+        .erro {
+            background: #ffebee;
+            padding: 15px;
+            border-left: 4px solid #f44336;
+            color: #c62828;
+            margin-bottom: 20px;
+            border-radius: 6px;
+        }
+        .resultados {
+            text-align: center;
+            color: #667eea;
+            font-weight: bold;
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
+        .livros {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        .livro-card {
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 20px;
+            transition: all 0.3s;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .livro-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(102, 126, 234, 0.3);
+            border-color: #667eea;
+        }
+        .livro-card h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 18px;
+            line-height: 1.4;
+            max-height: 55px;
+            overflow: hidden;
+        }
+        .livro-card p {
+            font-size: 14px;
+            color: #666;
+            margin: 8px 0;
+            line-height: 1.6;
+        }
+        .livro-card strong {
+            color: #333;
+            display: inline-block;
+            min-width: 80px;
+        }
+        .badge {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            margin-top: 10px;
+        }
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+        }
+        .empty-state svg {
+            width: 100px;
+            height: 100px;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+        .back {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 12px 25px;
+            background: #999;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            transition: background 0.3s;
+        }
+        .back:hover {
+            background: #777;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📚 Buscar Livros</h1>
+            <p>Pesquise milhões de livros na OpenLibrary</p>
+        </div>
+        
+        <div class="search-section">
+            <form method="GET" class="search-form">
+                <input 
+                    type="text" 
+                    name="q" 
+                    placeholder="Digite o nome do livro, autor ou tema..." 
+                    value="{{ query }}"
+                    autofocus
+                >
+                <button type="submit">🔍 Buscar</button>
+            </form>
+        </div>
+        
+        {% if erro %}
+        <div class="erro">
+            ⚠️ {{ erro }}
+        </div>
+        {% endif %}
+        
+        {% if livros %}
+        <div class="resultados">
+            ✓ {{ livros|length }} livro(s) encontrado(s)
+        </div>
+        
+        <div class="livros">
+            {% for livro in livros %}
+            <div class="livro-card">
+                <h3>{{ livro.title }}</h3>
+                <p>
+                    <strong>👤 Autor:</strong>
+                    {% if livro.author_name %}
+                        {{ livro.author_name.0 }}
+                    {% else %}
+                        Desconhecido
+                    {% endif %}
+                </p>
+                <p>
+                    <strong>📅 Ano:</strong>
+                    {% if livro.first_publish_year %}
+                        {{ livro.first_publish_year }}
+                    {% else %}
+                        N/A
+                    {% endif %}
+                </p>
+                <p>
+                    <strong>📖 Edições:</strong>
+                    {{ livro.edition_count }}
+                </p>
+                {% if livro.isbn %}
+                <p>
+                    <strong>📊 ISBN:</strong>
+                    {{ livro.isbn.0 }}
+                </p>
+                {% endif %}
+                <span class="badge">{{ livro.language|first|upper }}</span>
+            </div>
+            {% endfor %}
+        </div>
+        {% elif not erro %}
+        <div class="empty-state">
+            <p style="font-size: 18px; color: #999;">📖 Digite algo para começar a buscar</p>
+        </div>
+        {% endif %}
+        
+        <a href="{% url 'listar_produtos' %}" class="back">← Voltar</a>
+    </div>
+</body>
+</html>
