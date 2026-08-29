@@ -1,0 +1,99 @@
+# Ambiente Virtual
+venv/
+env/
+ENV/
+.venv
+
+# Arquivos do Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Sistema
+.DS_Store
+Thumbs.db
+
+# Ambiente
+.env
+.env.local
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+
+# IDE e Editores
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.pydevproject
+.settings/
+*.sublime-project
+*.sublime-workspace
+.DS_Store
+
+# Django
+*.log
+local_settings.py
+/media
+/staticfiles
+
+# Variáveis de Ambiente
+.env
+.env.local
+.env.*.local
+
+# Dependências do pip
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Cobertura de testes
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+
+# Sistema Operacional
+Thumbs.db
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Diretórios temporários
+tmp/
+temp/
+*.tmp
