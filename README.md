@@ -22,10 +22,13 @@ cd wsBackendFabricaDeSoftware26.2
 ```bash
 python -m venv venv
 venv\Scripts\activate  # Windows
-# ou
+
 source venv/bin/activate  # Linux/macOS
 ```
-
+### Se der erro use 
+```bash
+Set-ExecutionPolicy -Scope Process Bypass
+```
 ### 3. Instalar dependências
 ```bash
 pip install -r requirements.txt
